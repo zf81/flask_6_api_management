@@ -43,3 +43,101 @@ The goal of this week's assignment is to develop and document APIs using Flask, 
 - Navigate to the <code>function_app.py</code> file and enter the following code:
 
 ```python
+import azure.functions as func
+import json
+import logging
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+
+@app.function_name(name="Example")
+@app.route(route="welcome")
+def welcome(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+
+    lastname = request.args.get('lastname', 'no last name provided')
+    weather = request.args.get('weather', 'no weather provided. Look outside your window!')
+    nameCapital = name.upper()
+    lastnameCapital = lastname.upper()
+
+
+    return func.HttpResponse(
+        json.dumps(
+        {'Welcome' : f'Hello {nameCapital} {lastnameCapital}!', 
+        'Weather' : f'Today it is {weather} Thanks for stopping by!'}
+        ),        
+        status_code=200
+        )
+```
+
+- Navigate to <code>local.settings.json</code> and for <code>AzureWebJobsFeatureFlags</code> check that it is set to <code>EnableWorkerIndexing</code>
+- Navigate to <code>local.settings.json</code> and for <code>AzureWebJobsStorage</code> set it to <code>"UseDevelopmentStorage=true"</code>
+- Go back to the terminal and enter the following <code>func start</code> to check if the function has been set up. It should return the following:
+
+![funcstart](https://github.com/zf81/flask_6_api_management/blob/main/screenshots/funcstart.png)
+
+- Clicking on the localhost link will open a new browser page and you should see this confirmation:
+
+![azureapprunning](https://github.com/zf81/flask_6_api_management/blob/main/screenshots/azureapprunning.png)
+
+</br>
+
+## Create Azure Resources
+
+- Enter the following to create an Azure resource group
+
+```python
+az group create --name [YOUR_RESOURCE_GROUP_NAME] --location [REGION]
+```
+Resource group name: fizzah507-rg
+Location: eastus
+
+</br>
+
+- Enter the following to create storage account which will be located within the resource group:
+
+```python
+az storage account create --name [STORAGE_NAME] --location [REGION] --resource-group [YOUR_RESOURCE_GROUP_NAME] --sku Standard_LRS
+```
+Storage name: fizzahstorage
+Location: eastus
+Resource group name: fizzah507-rg
+
+</br>
+
+- Enter the following to create the function app:
+
+```python
+az functionapp create --resource-group [YOUR_RESOURCE_GROUP_NAME] --consumption-plan-location [REGION] --runtime python --runtime-version 3.9 --functions-version 4 --name [APP_NAME] --os-type linux --storage-account [STORAGE_NAME]
+```
+My app name was flask6api
+
+</br>
+
+## Azure Deployement 
+- Enter <code>func azure functionapp publish [APP_NAME]</code> which wil deploy the app to Azure 
+- If successful, you wil be provided with an "Azurewebsites" link 
+
+My azure app link: https://flask6api.azurewebsites.net/api/hello
+
+![azureapp2](https://github.com/zf81/flask_6_api_management/blob/main/screenshots/azureapp2.png)
+
+- After entering in first and last name along with the weather in the URL, the page returned:
+  
+![azureapp1](https://github.com/zf81/flask_6_api_management/blob/main/screenshots/azureapp1.png)
+
+</br>
+
+# Errors
+- After launching the Azure app using <code>func azure functionapp publish [APP_NAME]</code>, the URL link loaded a 401 error page. To fix this error, I went back to <code>function_app.py</code>. First, I saw this in the code
+  
+```python
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+```
+
+I changed it to:
+
+```python
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+```
+By changing it to anonymous, now anyone could be able to view the app and they would not require permission
+
