@@ -29,9 +29,9 @@ The goal of this week's assignment is to develop and document APIs using Flask, 
 - To log into Azure, type <code>az login --use-device-code</code>
 - Copy the code that is provided and click on the URL which will open a new tab 
 - Paste the code when prompted 
-- Click on the correcr account
+- Click on the correct account
 - Click yes when prompted "Are you trying to sign in to Microsoft Azure CLI?"
-- To install the Core Tools package, enter <code>sudo apt-get install azure-functions-core-tools-4</code> in ther terminal 
+- To install the Core Tools package, enter <code>sudo apt-get install azure-functions-core-tools-4</code> in the terminal 
 
 </br>
 
