@@ -24,7 +24,7 @@ The goal of this week's assignment is to develop and document APIs using Flask, 
 ![swagger](https://github.com/zf81/flask_6_api_management/blob/main/screenshots/swagger.png)
 
 # Azure API deployment
-- To start deploying Flask app, First, go bakc to ther terminal and type <code>curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash</code>
+- To start deploying Flask app, go back to the terminal and type <code>curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash</code>
 - Type in <code>az</code> to ensure Azure has downloaded 
 - To log into Azure, type <code>az login --use-device-code</code>
 - Copy the code that is provided and click on the URL which will open a new tab 
